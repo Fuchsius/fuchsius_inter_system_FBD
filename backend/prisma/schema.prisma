@@ -1,0 +1,189 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Department {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users       User[]
+}
+
+model Position {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users       User[]
+}
+
+model User {
+  id String @id @default(cuid())
+
+  employeeId   String
+  firstName    String
+  lastName     String
+  role         String    @default("employee")
+  email        String    @unique
+  address      String?
+  phone        String?
+  nic          String?
+  dateOfBirth  DateTime?
+  referralCode String?   @unique
+  status       String    @default("active")
+  password     String
+  paidAmount   Float?
+  avatar       String?
+  university   String?
+
+  lastActiveAt DateTime?
+  paymentSlip  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  departmentId String?
+  positionId   String?
+
+  department   Department? @relation(fields: [departmentId], references: [id])
+  position     Position?   @relation(fields: [positionId], references: [id])
+
+  referredBy Referral[]   @relation("ReferralBy")
+  joined     Referral[]   @relation("Referral")
+  attendance Attendance[] @relation("Attendance")
+  projects   Project[]    @relation("ProjectManager")
+  tasks      Task[]       @relation("Task")
+  notifications Notification[]
+  activities Activity[]
+}
+
+model Referral {
+  id               String @id @default(cuid())
+  referredByUserId String
+  joinedUserId     String
+
+  withdrawAmount   Float?
+
+  referredBy User @relation(fields: [referredByUserId], references: [id], name: "ReferralBy")
+  joinedUser User @relation(fields: [joinedUserId], references: [id], name: "Referral")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Attendance {
+  id String @id @default(cuid())
+
+  userId       String
+  date         DateTime
+  checkInTime  DateTime?
+  checkOutTime DateTime?
+  status       String    @default("present")
+
+  user User @relation(fields: [userId], references: [id], name: "Attendance")
+}
+
+model Project {
+  id String @id @default(cuid())
+
+  title            String
+  description      String?
+  deadline         DateTime?
+  status           String    @default("active")
+  projectManagerId String?
+  priority         String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projectManager User? @relation("ProjectManager", fields: [projectManagerId], references: [id])
+
+  tasks Task[]
+}
+
+model Task {
+  id String @id @default(cuid())
+
+  projectId   String
+  userId      String
+  title       String
+  description String?
+  deadline    DateTime?
+  priority    String?
+  status      String    @default("active")
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User    @relation("Task", fields: [userId], references: [id])
+  project Project @relation(fields: [projectId], references: [id])
+}
+
+model Event {
+  id String @id @default(cuid())
+
+  title        String
+  description  String?
+  category     String?
+  date         DateTime
+  time         DateTime?
+  maxAttendees Int?
+  location     String?
+  organizer    String?
+  status       String    @default("upcoming")
+  imageUrl     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id String @id @default(cuid())
+  title String
+  message String
+  type String
+  userId String
+  read Boolean @default(false)
+  description String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Activity {
+  id String @id @default(cuid())
+  userId String
+  action String
+  entityType String?
+  entityId String?
+  description String?
+  metadata String?
+  ipAddress String?
+  userAgent String?
+  deviceType String?
+  os String?
+  osVersion String?
+  browser String?
+  browserVersion String?
+  deviceName String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}

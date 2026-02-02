@@ -1,0 +1,179 @@
+:root {
+    color-scheme: dark;
+    --text: #585858;
+    --muted: rgb(72, 72, 72);
+    --bg-overlay: rgba(2, 4, 9, 0.8);
+    --border: rgba(255, 255, 255, 0.14);
+    --font-sans: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #ffffff;
+    font-family: var(--font-sans);
+    color: var(--text);
+    overflow: hidden;
+}
+
+.preview-shell {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+}
+
+#previewFrame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #ffffff;
+}
+
+.preview-overlay {
+    position: absolute;
+    bottom: 10px;
+    right: -122px;
+    width: min(160px);
+    /* background: var(--bg-overlay); */
+    background-color: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 5px 16px;
+    backdrop-filter: blur(80px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: right 0.2s ease;
+}
+
+.preview-overlay:hover {
+    right: 10px;
+}
+
+.label {
+    margin: 0;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+}
+
+.metric-value {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+}
+
+.activity-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(100, 100, 100, 1);
+    opacity: 0.8;
+}
+
+@keyframes activityBlink {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.9);
+        opacity: 0.5;
+    }
+}
+
+.activity-dot.flash-green {
+    background: #69f0ae;
+    box-shadow: 0 0 12px rgba(105, 240, 174, 0.8);
+    animation: activityBlink 1s ease;
+    animation-delay: 1s;
+}
+
+.activity-dot.flash-red {
+    background: #ff6b6b;
+    box-shadow: 0 0 12px rgba(255, 107, 107, 0.8);
+    animation: activityBlink 1s ease;
+    animation-delay: 1s;
+}
+
+.user-pill {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    width: min(320px, calc(100% - 36px));
+    padding: 16px 20px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(5, 7, 13, 0.78);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 18px 32px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: white;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.user-pill::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    background: #ff9d00;
+    box-shadow: 0 0 16px rgba(255, 157, 0, 0.6);
+}
+
+.user-pill[data-status="online"]::before {
+    background: #69f0ae;
+    box-shadow: 0 0 16px rgba(105, 240, 174, 0.6);
+}
+
+.user-pill[data-status="offline"]::before {
+    background: #ff6b6b;
+    box-shadow: 0 0 16px rgba(255, 107, 107, 0.5);
+}
+
+.user-pill .user-name {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: white;
+}
+
+.user-pill .user-meta {
+    margin: 0;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.user-pill:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.loged-user h1{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    /* color: white; */
+}

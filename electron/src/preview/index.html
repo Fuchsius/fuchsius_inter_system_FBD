@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Permissions-Policy" content="clipboard-read=(self), clipboard-write=(self)" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://intersystem.fuchsius.com; connect-src 'self' https://intersystem.fuchsius.com wss://intersystem.fuchsius.com;" />
+  <title>Fuchsius</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./preview.css" />
+</head>
+
+<body>
+  <div class="preview-shell">
+    <iframe id="previewFrame" title="Fuchsius" loading="lazy" allow="clipboard-read; clipboard-write"></iframe>
+
+    <div class="preview-overlay">
+      <span class="activity-dot" id="overlayActivityDot" aria-hidden="true"></span>
+      <div>
+        <p class="label">Idle timer</p>
+        <p class="metric-value" id="overlayIdle">0s</p>
+      </div>
+    </div>
+    <div class="user-pill" id="loggedUserCard" aria-live="polite" style="display: none;">
+      <p class="label subtle">Logged user</p>
+      <p class="user-name" id="loggedUserName">No active session</p>
+      <p class="user-meta" id="loggedUserMeta">Sign in inside the preview window</p>
+    </div>
+  </div>
+
+
+  <script src="./preview.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+{
+  "name": "fuchsius",
+  "version": "1.0.0",
+  "description": "Fuchsius Desktop App",
+  "author": {
+    "name": "Fuchsius Pvt Ltd",
+    "email": "support@fuchsius.com",
+    "url": "https://fuchsius.com"
+  },
+  "main": "main.js",
+
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "npm run build -- --win",
+    "build:mac": "npm run build -- --mac",
+    "build:linux": "npm run build -- --linux",
+    "postinstall": "electron-builder install-app-deps"
+  },
+
+  "dependencies": {
+    "uiohook-napi": "1.5.4"
+  },
+
+  "devDependencies": {
+    "electron": "^28.2.0",
+    "electron-builder": "^24.13.3"
+  },
+
+  "build": {
+    "appId": "com.fuchsius.managementsystem",
+    "productName": "Fuchsius",
+
+    "copyright": "Copyright (c) 2026 Fuchsius Pvt Ltd",
+
+    "asar": true,
+    "removePackageScripts": true,
+
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/",
+      "package.json",
+      "!README.md"
+    ],
+
+    "directories": {
+      "output": "dist"
+    },
+
+    "win": {
+      "target": ["nsis"],
+      "icon": "src/assets/icon.ico",
+      "signAndEditExecutable": true,
+      "publisherName": "Fuchsius Pvt Ltd",
+      "executableName": "Fuchsius",
+      "legalTrademarks": "Fuchsius™"
+    },
+
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "artifactName": "${productName} Setup ${version}.${ext}"
+    },
+
+    "mac": {
+      "target": "dmg",
+      "icon": "src/assets/icon.png",
+      "hardenedRuntime": true
+    },
+
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "icon": "src/assets/icon.png",
+      "category": "Utility",
+      "maintainer": "Fuchsius Pvt Ltd <support@fuchsius.com>"
+    }
+
+  }
+}

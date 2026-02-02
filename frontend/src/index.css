@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+/* Custom scrollbar styling for all browsers */
+/* Webkit browsers (Chrome, Safari, Edge, Opera) */
+::-webkit-scrollbar {
+  width: 1px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C4009A;
+  border-radius: 4px;
+  border: none;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: 1px;
+  scrollbar-height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #C4009A;
+  border-radius: 4px;
+  border: none;
+}
+
+/* Ensure scrollbar is always visible */
+html {
+  overflow-y: scroll !important;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+
+body {
+  overflow-y: scroll !important;
+  overflow-x: hidden;
+  min-height: 100vh;
+  user-select: none;
+}
+
+/* Placeholder styling */
+::placeholder {
+  color: #94a3b8; /* slate-400 */
+  opacity: 1;
+}
+
+::-webkit-input-placeholder {
+  color: #94a3b8;
+}
+
+::-moz-placeholder {
+  color: #94a3b8;
+}
+
+:-ms-input-placeholder {
+  color: #94a3b8;
+}
+
+:-moz-placeholder {
+  color: #94a3b8;
+}

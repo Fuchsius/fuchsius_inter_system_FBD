@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Permissions required</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./permission.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="card intro">
+        <!-- <p class="brand-mark gradient-text">Fuchsius</p> -->
+        <!-- <p class="eyebrow">Global Activity Tracker</p> -->
+        <h1>Finish permissions to continue</h1>
+        <p class="muted">
+          Before opening the dashboard, finish the system permissions we rely on for status tracking and live activity
+          monitoring.
+        </p>
+      </section>
+
+      <section class="card checklist">
+        <!-- <div class="item">
+          <div class="status" id="consentStatus"></div>
+          <div>
+            <h2>User consent</h2>
+            <p class="muted">Explicit opt-in is required before any background activity can be monitored.</p>
+            <button id="consentButton" class="primary">Grant consent</button>
+          </div>
+        </div> -->
+
+        <div class="item mac" id="macBlock">
+          <div class="status" id="accessStatus"></div>
+          <div>
+            <h2>macOS accessibility access</h2>
+            <p class="muted">
+              Open <em>System Settings → Privacy &amp; Security → Accessibility</em>, enable <strong>Activity Tracker</strong>, then
+              return here and press refresh so we can verify access.
+            </p>
+            <div class="actions">
+              <button id="openAccessibility" class="ghost">Open settings</button>
+              <button id="refreshAccessibility" class="secondary">Refresh permission</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="item" id="statusSummary">
+          <div class="status" id="overallStatus"></div>
+          <div>
+            <h2>Next step</h2>
+            <p class="muted" id="summaryText">Waiting for requirements…</p>
+            <button id="continueButton" class="primary" disabled>Launch tracker</button>
+          </div>
+        </div> -->
+      </section>
+
+      <section class="card info" id="linuxInfo">
+        <h3>Wayland sessions not supported</h3>
+        <p>Switch to an X11 session to enable global background hooks.</p>
+      </section>
+    </main>
+
+    <script src="./permission.js" defer></script>
+  </body>
+</html>
