@@ -65,6 +65,12 @@ Thumbs.db
 coverage/
 .nyc_output/
 
+# Download Files & Releases
+Fuchsius\ app\ download\ website/
+download-files/
+*.AppImage
+*.dmg
+
 # Misc
 *.pem
 *.key
