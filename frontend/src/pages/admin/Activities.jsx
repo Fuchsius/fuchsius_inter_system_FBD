@@ -614,17 +614,36 @@ const Activities = () => {
                                     Previous
                                 </Button>
 
-                                {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => (
-                                    <Button
-                                        key={page}
-                                        variant={pagination.page === page ? "default" : "outline"}
-                                        size="sm"
-                                        onClick={() => handlePageChange(page)}
-                                        className={pagination.page === page ? "bg-[#C4009A] hover:bg-[#C4009A]/90 text-white" : ""}
-                                    >
-                                        {page}
-                                    </Button>
-                                ))}
+                                {(() => {
+                                    const pages = [];
+                                    const totalPagesCount = pagination.pages;
+                                    const currentPageNum = pagination.page;
+                                    const maxVisible = 5;
+                                    
+                                    let startPage = Math.max(1, currentPageNum - Math.floor(maxVisible / 2));
+                                    let endPage = Math.min(totalPagesCount, startPage + maxVisible - 1);
+                                    
+                                    // Adjust start page if we're near the end
+                                    if (endPage - startPage + 1 < maxVisible) {
+                                        startPage = Math.max(1, endPage - maxVisible + 1);
+                                    }
+                                    
+                                    for (let i = startPage; i <= endPage; i++) {
+                                        pages.push(i);
+                                    }
+                                    
+                                    return pages.map((page) => (
+                                        <Button
+                                            key={page}
+                                            variant={currentPageNum === page ? "default" : "outline"}
+                                            size="sm"
+                                            onClick={() => handlePageChange(page)}
+                                            className={currentPageNum === page ? "bg-[#C4009A] hover:bg-[#C4009A]/90 text-white" : ""}
+                                        >
+                                            {page}
+                                        </Button>
+                                    ));
+                                })()}
 
                                 <Button
                                     variant="outline"

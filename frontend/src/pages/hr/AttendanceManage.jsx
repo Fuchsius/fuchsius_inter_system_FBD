@@ -1009,35 +1009,54 @@ const AttendancePage = () => {
                                 Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredAttendance.length)} of {filteredAttendance.length} entries
                             </div>
                             <div className="flex gap-2">
-                                <button
+                                <Button
+                                    variant="outline"
+                                    size="sm"
                                     onClick={() => handlePageChange(currentPage - 1)}
                                     disabled={currentPage === 1}
-                                    className="px-4 py-2 text-sm border border-slate-300 rounded hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Previous
-                                </button>
+                                </Button>
 
-                                {Array.from({ length: Math.ceil(filteredAttendance.length / ITEMS_PER_PAGE) }, (_, i) => i + 1).map((page) => (
-                                    <button
-                                        key={page}
-                                        onClick={() => handlePageChange(page)}
-                                        className={`px-4 py-2 text-sm border rounded ${
-                                            currentPage === page
-                                                ? "bg-[#C4009A] text-white border-[#C4009A]"
-                                                : "border-slate-300 hover:bg-slate-50"
-                                        }`}
-                                    >
-                                        {page}
-                                    </button>
-                                ))}
+                                {(() => {
+                                    const pages = [];
+                                    const totalPagesCount = Math.ceil(filteredAttendance.length / ITEMS_PER_PAGE);
+                                    const currentPageNum = currentPage;
+                                    const maxVisible = 5;
+                                    
+                                    let startPage = Math.max(1, currentPageNum - Math.floor(maxVisible / 2));
+                                    let endPage = Math.min(totalPagesCount, startPage + maxVisible - 1);
+                                    
+                                    // Adjust start page if we're near the end
+                                    if (endPage - startPage + 1 < maxVisible) {
+                                        startPage = Math.max(1, endPage - maxVisible + 1);
+                                    }
+                                    
+                                    for (let i = startPage; i <= endPage; i++) {
+                                        pages.push(i);
+                                    }
+                                    
+                                    return pages.map((page) => (
+                                        <Button
+                                            key={page}
+                                            variant={currentPageNum === page ? "default" : "outline"}
+                                            size="sm"
+                                            onClick={() => handlePageChange(page)}
+                                            className={currentPageNum === page ? "bg-[#C4009A] hover:bg-[#C4009A]/90 text-white" : ""}
+                                        >
+                                            {page}
+                                        </Button>
+                                    ));
+                                })()}
 
-                                <button
+                                <Button
+                                    variant="outline"
+                                    size="sm"
                                     onClick={() => handlePageChange(currentPage + 1)}
                                     disabled={currentPage === Math.ceil(filteredAttendance.length / ITEMS_PER_PAGE)}
-                                    className="px-4 py-2 text-sm border border-slate-300 rounded hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Next
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     )}

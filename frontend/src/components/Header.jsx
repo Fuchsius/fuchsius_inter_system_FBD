@@ -406,7 +406,7 @@ const Header = ({ title, toggleMobileMenu, userRole }) => {
 
             {/* Notification Dropdown */}
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-lg border border-slate-200 z-50 max-h-96 overflow-hidden">
+              <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-lg border border-slate-200 z-50 max-h-[40rem] overflow-hidden">
                 {/* Header */}
                 <div className="p-3 sm:p-4 border-b border-slate-200 flex items-center justify-between">
                   <h3 className="font-semibold text-slate-800 text-sm sm:text-base">Notifications</h3>
@@ -431,11 +431,11 @@ const Header = ({ title, toggleMobileMenu, userRole }) => {
                 {/* Notifications List */}
                 <div className="max-h-64 sm:max-h-80 overflow-y-auto">
                   {notifications.length > 0 ? (
-                    notifications.map((notification) => (
+                    notifications.slice(0, 40).map((notification) => (
                       <div
                         key={notification.id}
                         onClick={() => markAsRead(notification.id)}
-                        className={`p-3 sm:p-4 border-b border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors ${!notification.read ? 'bg-blue-50/30' : ''
+                        className={`group p-3 sm:p-4 border-b border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors ${!notification.read ? 'bg-blue-50/30' : ''
                           }`}
                       >
                         <div className="flex gap-2 sm:gap-3">
@@ -452,7 +452,7 @@ const Header = ({ title, toggleMobileMenu, userRole }) => {
                                 <span className="w-2 h-2 bg-blue-500 rounded-full shrink-0 mt-1"></span>
                               )}
                             </div>
-                            <p className="text-xs sm:text-sm text-slate-600 mt-1 line-clamp-2">
+                            <p className="text-xs sm:text-sm text-slate-600 mt-1 line-clamp-2 group-hover:line-clamp-none">
                               {notification.message}
                             </p>
                             <div className="flex items-center gap-1 mt-2">

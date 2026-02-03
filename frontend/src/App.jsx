@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef, Suspense, lazy, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useParams, useLocation } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Layout from './components/Layout';
 import Login from './pages/Login';
@@ -212,12 +212,19 @@ const FuchsiusApp = () => {
     );
   };
 
-  // Global Socket.IO connection
+  // Global Socket.IO connection and user status validation
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       try {
         const user = JSON.parse(storedUser);
+        
+        // Check if user is suspended
+        if (user.status === 'suspended') {
+          handleLogout();
+          return;
+        }
+
         const normalizedRole = normalizeRole(user.role);
         let normalizedUser = user;
         if (normalizedRole && normalizedRole !== user.role) {
@@ -227,8 +234,8 @@ const FuchsiusApp = () => {
         setUserRole(normalizedRole || null);
         setSessionUser(normalizedUser);
       } catch (e) {
-        localStorage.removeItem('user');
-        setSessionUser(null);
+        console.error('Error parsing user data:', e);
+        handleLogout();
       }
     } else {
       setSessionUser(null);
@@ -382,6 +389,12 @@ const FuchsiusApp = () => {
   }, [userRole]);
 
   const handleLogin = (user, accessToken, refreshToken) => {
+    // Check if user is suspended before proceeding with login
+    if (user?.status === 'suspended') {
+      handleLogout();
+      return;
+    }
+    
     const normalizedRole = normalizeRole(user?.role);
     const normalizedUser = { ...user, role: normalizedRole };
     localStorage.setItem('accessToken', accessToken);
@@ -392,9 +405,14 @@ const FuchsiusApp = () => {
     broadcastAuthState('auth:login', normalizedUser);
   };
 
-  const handleLogout = () => {
+  const handleLogout = (isSuspended = false) => {
     // Disconnect Socket.IO before clearing tokens
     socketService.disconnect();
+
+    if (isSuspended) {
+      // Show a message to the user if they were logged out due to suspension
+      toast.error('Your account has been suspended. Please contact an administrator.');
+    }
 
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');

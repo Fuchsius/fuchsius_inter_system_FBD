@@ -714,17 +714,33 @@ const AdminReferrals = () => {
                 Previous
               </Button>
               
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <Button
-                  key={page}
-                  variant={currentPage === page ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => handlePageChange(page)}
-                  className={currentPage === page ? "bg-[#C4009A] hover:bg-[#C4009A]/90 text-white" : ""}
-                >
-                  {page}
-                </Button>
-              ))}
+              {(() => {
+                const pages = [];
+                const maxVisible = 5;
+                let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+                let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+                
+                // Adjust start page if we're near the end
+                if (endPage - startPage + 1 < maxVisible) {
+                  startPage = Math.max(1, endPage - maxVisible + 1);
+                }
+                
+                for (let i = startPage; i <= endPage; i++) {
+                  pages.push(i);
+                }
+                
+                return pages.map((page) => (
+                  <Button
+                    key={page}
+                    variant={currentPage === page ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handlePageChange(page)}
+                    className={currentPage === page ? "bg-[#C4009A] hover:bg-[#C4009A]/90 text-white" : ""}
+                  >
+                    {page}
+                  </Button>
+                ));
+              })()}
               
               <Button
                 variant="outline"

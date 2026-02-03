@@ -472,19 +472,39 @@ const Tasks = ({ userRole }) => {
                   Previous
                 </button>
 
-                {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`px-3 py-1 text-sm border rounded ${
-                      currentPage === page
-                        ? "bg-[#C4009A] text-white border-[#C4009A]"
-                        : "border-slate-300 hover:bg-slate-50"
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
+                {/* Generate page numbers with max 5 visible */}
+                {(() => {
+                  const pages = [];
+                  const totalPagesCount = pagination.pages;
+                  const currentPageNum = currentPage;
+                  const maxVisible = 5;
+                  
+                  let startPage = Math.max(1, currentPageNum - Math.floor(maxVisible / 2));
+                  let endPage = Math.min(totalPagesCount, startPage + maxVisible - 1);
+                  
+                  // Adjust start page if we're near the end
+                  if (endPage - startPage + 1 < maxVisible) {
+                    startPage = Math.max(1, endPage - maxVisible + 1);
+                  }
+                  
+                  for (let i = startPage; i <= endPage; i++) {
+                    pages.push(i);
+                  }
+                  
+                  return pages.map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={`px-3 py-1 text-sm border rounded ${
+                        currentPageNum === page
+                          ? "bg-[#C4009A] text-white border-[#C4009A]"
+                          : "border-slate-300 hover:bg-slate-50"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ));
+                })()}
 
                 <button
                   onClick={() => setCurrentPage(pagination.page + 1)}
